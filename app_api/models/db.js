@@ -14,7 +14,7 @@ mongoose.connection.on('connected', function(){
    console.log('Mongoose connected to ' + dbURI);
 });
 
-// If connection is unsuccessfu
+// If connection is unsuccessful
 mongoose.connection.on('error', function(err){
     console.log('Mongoose connection error ' + err);
 });
@@ -51,4 +51,6 @@ process.on('SIGTERM', function () {
        process.exit(0);
    });
 });
+
+require('./sessions');
 

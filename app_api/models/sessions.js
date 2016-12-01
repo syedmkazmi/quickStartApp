@@ -1,10 +1,10 @@
 /**
- * Created by syedkazmi on 23/11/2016.
+ * Created by syedkazmi on 28/11/2016.
  */
 
 var mongoose = require('mongoose');
 
-var survey =  new mongoose.schema({
+var survey =  new mongoose.Schema({
 
     sessionNo: {type: Number, required: true, min: 1, max: 6},
     firstName: {type: String, required: true},
@@ -16,6 +16,9 @@ var survey =  new mongoose.schema({
     coachName: {type: String},
     practiceManagerName: {type: String},
 
+    //TODO: Check with sean whether more then 1 module can be done in a single session.
+    modules: {type: String, required: true},
+
     q1: {type: String, required: true},
     q2: {type: String, required: true},
     q3: {type: String, required: true},
@@ -24,16 +27,22 @@ var survey =  new mongoose.schema({
 
 });
 
-var happySadSchema = new mongoose.schema({
+var happySadSchema = new mongoose.Schema({
 
     practiceName: {type: String, required: true},
     primaryOrgName: {type: String, required: true},
     cohort: {type: Number, required: true},
+    deliveryPartner: {type: String, required: true},
 
-    poorSessions: {type: Number},
-    okSessions: {type: Number},
-    wellSessions: {type: Number},
-    veryWellSessions: {type: Number},
+    poorSessionsPracticeManager: {type: Number, default: 0},
+    okSessionsPracticeManager: {type: Number, default: 0},
+    wellSessionsPracticeManager: {type: Number, default: 0},
+    veryWellSessionsPracticeManager: {type: Number, default:0},
+
+    poorSessionsCoach: {type: Number, default: 0},
+    okSessionsCoach: {type: Number, default: 0},
+    wellSessionsCoach: {type: Number, default: 0},
+    veryWellSessionsCoach: {type: Number, default:0},
 
     sessionOneStatus: {type: Boolean, default: false},
     sessionTwoStatus: {type: Boolean, default: false},
@@ -42,10 +51,11 @@ var happySadSchema = new mongoose.schema({
     sessionFiveStatus: {type: Boolean, default: false},
     sessionSixStatus: {type: Boolean, default: false},
 
-    practiceManager:[survey],
-    deliveryCoach: [survey]
+    sessionSurvey: [survey],
+    practiceManagerSurvey:[survey],
+    deliveryCoachSurvey: [survey]
 
 });
 
-var pm = mongoose.model('HpSurvey', happySadSchema);
-var coach = mongoose.model('HpSurvey', happySadSchema);
+//TODO: Figure out how to use a single data model for multiple mongodb collections
+mongoose.model('Surveys', happySadSchema);
